@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Yıldızlı Ortalama ✦</title>
+  <link rel="icon" type="image/x-icon" href="assets/ders-takip-pastel-ikon.ico">
+  <link rel="shortcut icon" type="image/x-icon" href="assets/ders-takip-pastel-ikon.ico">
+  <link rel="apple-touch-icon" href="assets/icon-180.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Indie+Flower&display=swap" rel="stylesheet">
+  
+
+
+  <link rel="manifest" href="manifest-yildizli.json">
+  <meta name="theme-color" content="#6F6175">
+  <meta name="application-name" content="Yıldızlı Ortalama ✦">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="Yıldızlı Ortalama ✦">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <link rel="icon" type="image/png" sizes="192x192" href="assets/icon-192.png">
+  <link rel="icon" type="image/png" sizes="512x512" href="assets/icon-512.png">
+  <link rel="apple-touch-icon" href="assets/ders-takip-pastel-ikon.png">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div class="doodle-overlay" aria-hidden="true"></div>
+  <span class="yildiz yildiz-1">✦</span>
+  <span class="yildiz yildiz-2">✧</span>
+  <span class="yildiz yildiz-3">⋆</span>
+  <span class="yildiz yildiz-4">⊹</span>
+  <span class="yildiz yildiz-5">˚</span>
+  <span class="yildiz yildiz-6">⟡</span>
+  <span class="yildiz yildiz-7">⊰</span>
+  <span class="yildiz yildiz-8">⟢</span>
+
+  <main class="sayfa">
+    <header>
+      <h1>Yıldızlı Ortalama ✦</h1>
+      <p class="aciklama">Vize ve final notlarını gir, dönem ve genel ortalamanı kolayca gör.</p>
+      <span class="surum-etiketi" id="surumEtiketi">v0.1.9</span>
+    </header>
+
+    <section class="calisma-alani">
+      <div class="sol-calisma">
+            <section class="ust-alan">
+              <details class="panel ders-form-details">
+                <summary class="form-katlanir-baslik">
+                  <span id="formBaslik">Ders Ekle ✦</span>
+                  <span class="form-katlanir-ok">›</span>
+                </summary>
+
+                <form id="dersFormu">
+                <div class="form-grid">
+                  <div class="tam-satir">
+                    <label for="dersAdi">Ders adı</label>
+                    <input id="dersAdi" type="text" placeholder="Örnek: Matematik" required>
+                  </div>
+
+                  <div>
+                    <label for="donem">Dönem</label>
+                    <input id="donem" type="text" list="donemOnerileri" placeholder="Örnek: 2025 Güz" required>
+                    <datalist id="donemOnerileri"></datalist>
+                  </div>
+
+                  <div>
+                    <label for="kredi">Ders kredisi</label>
+                    <input id="kredi" type="number" min="1" step="1" placeholder="3" required>
+                  </div>
+
+                  <div class="tam-satir">
+                    <label for="dersDurumu">Ders durumu</label>
+                    <select id="dersDurumu" required>
+                      <option value="notlu">Notu girilmiş ders</option>
+                      <option value="planlanan">Planlanan ders</option>
+                    </select>
+                  </div>
+
+                  <div class="tam-satir" id="notTuruAlani">
+                    <label for="notTuru">Not türü</label>
+                    <select id="notTuru" required>
+                      <option value="harf">Harf notlu ders</option>
+                      <option value="su">S / U ders</option>
+                    </select>
+                  </div>
+
+                  <div class="tam-satir alan-gizli" id="hedefHarfAlani">
+                    <label for="hedefHarf">Hedef harf notu</label>
+                    <select id="hedefHarf">
+                      <option value="">Hedef seçilmedi</option>
+                      <option value="AA">AA / 4.00</option>
+                      <option value="BA">BA / 3.50</option>
+                      <option value="BB">BB / 3.00</option>
+                      <option value="CB">CB / 2.50</option>
+                      <option value="CC">CC / 2.00</option>
+                      <option value="DC">DC / 1.50</option>
+                      <option value="DD">DD / 1.00</option>
+                      <option value="FD">FD / 0.50</option>
+                      <option value="FF">FF / 0.00</option>
+                    </select>
+                  </div>
+
+                  <div id="vizeAlani">
+                    <label for="vize" id="vizeEtiketi">Vize notu</label>
+                    <input id="vize" type="number" min="0" max="100" step="1" placeholder="70" required>
+                  </div>
+
+                  <div id="finalAlani">
+                    <label for="final">Final notu</label>
+                    <input id="final" type="number" min="0" max="100" step="1" placeholder="80" required>
+                  </div>
+
+                  <div id="suAlani" class="tam-satir alan-gizli">
+                    <label for="suNotu">S / U sonucu</label>
+                    <select id="suNotu">
+                      <option value="S">S - Başarılı</option>
+                      <option value="U">U - Başarısız</option>
+                    </select>
+                  </div>
+
+                  <div class="canli-sonuc">
+                    <div>
+                      <span id="canliOrtalamaBaslik">Ortalama</span>
+                      <strong id="canliOrtalama">0.00</strong>
+                    </div>
+                    <div>
+                      <span id="canliHarfBaslik">Harf notu</span>
+                      <strong id="canliHarf">FF / 0.00</strong>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="buton-satiri" id="formButonlari">
+                  <button type="submit" id="kaydetButonu">Dersi Ekle</button>
+                </div>
+
+                <p class="not" id="formNotu">Ortalama vize %40 + final %60 ile hesaplanır. Harf notu otomatik belirlenir.</p>
+                </form>
+              </details>
+
+              <section class="ozet-alani">
+                <div class="donem-secimi">
+                  <label for="yanoDonemi">YANO için dönem seç</label>
+                  <select id="yanoDonemi"></select>
+                </div>
+
+                <div class="sonuclar">
+                  <div class="sonuc-karti">
+                    <div class="sonuc-baslik">Seçili Dönem YANO</div>
+                    <div class="sonuc-deger" id="yanoSonuc">0.00</div>
+                    <div class="sonuc-alt" id="yanoAlt">Kredi: 0</div>
+                  </div>
+
+                  <div class="sonuc-karti">
+                    <div class="sonuc-baslik">GANO</div>
+                    <div class="sonuc-deger" id="ganoSonuc">0.00</div>
+                    <div class="sonuc-alt" id="ganoAlt">Toplam kredi: 0</div>
+                  </div>
+
+                  <div class="sonuc-karti">
+                    <div class="sonuc-baslik">Toplam Kredi</div>
+                    <div class="sonuc-deger" id="toplamKredi">0</div>
+                    <div class="sonuc-alt" id="dersSayisiKarti">Ders: 0</div>
+                  </div>
+                </div>
+                <div class="serpme-doodleler" aria-hidden="true">
+                  <span class="doodle-a">˚</span>
+                  <span class="doodle-b">✦</span>
+                  <span class="doodle-c">♡</span>
+                  <span class="doodle-d">✧</span>
+                  <span class="doodle-e">✿</span>
+                  <span class="doodle-f">☾</span>
+                  <span class="doodle-g">⋆</span>
+                  <span class="doodle-h">•</span>
+                  <span class="doodle-i">⟡</span>
+                  <span class="doodle-j">₊</span>
+                  <span class="doodle-k">✦</span>
+                  <span class="doodle-l">♡</span>
+                  <span class="doodle-m">✧</span>
+                  <span class="doodle-n">˖</span>
+                  <span class="doodle-o">✿</span>
+                  <span class="doodle-p">⋆</span>
+                  <span class="doodle-q">•</span>
+                  <span class="doodle-r">☾</span>
+                  <span class="doodle-s">⟡</span>
+                  <span class="doodle-t">˚</span>
+                  <span class="doodle-u">₊</span>
+                  <span class="doodle-v">♡</span>
+                  <span class="doodle-w">✦</span>
+                  <span class="doodle-x">•</span>
+                </div>
+              </section>
+            </section>
+
+
+      </div>
+
+      <aside class="sag-calisma">
+            <section class="gorsel-ayar-alani" aria-label="Görsel ayarlar">
+              <div class="ayar-kutusu" data-ayar="tema">
+                <button type="button" class="ayar-ana-buton" id="temaMenuButonu" aria-expanded="false" aria-controls="temaMenu">Tema ✦</button>
+                <div class="ayar-menu" id="temaMenu" hidden>
+                  <button type="button" class="ayar-secim-buton" data-tema="mor">Mor</button>
+                  <button type="button" class="ayar-secim-buton" data-tema="mavi">Mavi</button>
+                  <button type="button" class="ayar-secim-buton" data-tema="yesil">Yeşil</button>
+                  <button type="button" class="ayar-secim-buton" data-tema="kirmizi">Kırmızı</button>
+                  <button type="button" class="ayar-secim-buton" data-tema="sari">Sarı</button>
+                </div>
+                <select id="temaSecimi" aria-label="Tema seçimi">
+                  <option value="mor">Mor</option>
+                  <option value="mavi">Mavi</option>
+                  <option value="yesil">Yeşil</option>
+                  <option value="kirmizi">Kırmızı</option>
+                  <option value="sari">Sarı</option>
+                </select>
+              </div>
+
+              <div class="ayar-kutusu" data-ayar="doodle">
+                <button type="button" class="ayar-ana-buton" id="doodleMenuButonu" aria-expanded="false" aria-controls="doodleMenu">Doodle ✧</button>
+                <div class="ayar-menu" id="doodleMenu" hidden>
+                  <button type="button" class="ayar-secim-buton" data-doodle="az">Az</button>
+                  <button type="button" class="ayar-secim-buton" data-doodle="orta">Orta</button>
+                  <button type="button" class="ayar-secim-buton" data-doodle="cok">Çok</button>
+                  <button type="button" class="ayar-secim-buton" data-doodle="asiri">Aşırı</button>
+                </div>
+                <select id="doodleYogunlugu" aria-label="Doodle yoğunluğu seçimi">
+                  <option value="az">Az</option>
+                  <option value="orta">Orta</option>
+                  <option value="cok">Çok</option>
+                  <option value="asiri">Aşırı</option>
+                </select>
+              </div>
+
+              <div class="ayar-kutusu" data-ayar="of">
+                <button type="button" class="ayar-ana-buton" id="ofMenuButonu" aria-expanded="false" aria-controls="ofMenu">O/F</button>
+                <div class="ayar-menu ayar-menu-genis" id="ofMenu" hidden>
+                  <button type="button" class="ayar-secim-buton veri-kurtarma-buton" id="sifirDersleriPlanlananaCevirButonu">0 / FF → Planlanan</button>
+                  <p class="veri-kurtarma-notu">Vize-finali 0 olan yanlış notlu dersleri GANO'yu bozmasın diye planlanan derse çevirir.</p>
+                </div>
+              </div>
+            </section>
+
+            <section class="yedekleme-alani" aria-label="Veri yedekleme, aktarma ve rapor">
+              <button type="button" id="disaAktarButonu">Dışa aktar</button>
+              <button type="button" class="ikincil" id="iceAktarButonu">İçe aktar</button>
+              <button type="button" class="ikincil" id="raporYazdirButonu">Rapor / PDF</button>
+              <button type="button" class="tumunu-sil-buton" id="tumunuSilButonu">Tümünü sil</button>
+              <input id="iceAktarDosyasi" type="file" accept="application/json,.json" hidden>
+              <p class="yedekleme-durumu" id="yedeklemeDurumu">Yedek durumu kontrol ediliyor.</p>
+            </section>
+
+
+            <details class="panel veri-guvenligi-panel" id="veriGuvenligiPanel">
+              <summary>Veri güvenliği ✦</summary>
+              <div class="veri-guvenligi-icerik">
+                <div class="veri-guvenligi-butonlari">
+                  <button type="button" class="ikincil" id="geriAlButonu" disabled>Son işlemi geri al ↶</button>
+                  <button type="button" class="ikincil" id="miniYedekleriTemizle">Mini yedekleri temizle</button>
+                </div>
+                <p class="geri-al-durumu" id="geriAlDurumu">Henüz geri alınacak işlem yok.</p>
+                <p class="mini-yedek-notu">Uygulama önemli değişikliklerden önce otomatik mini yedek tutar. Buradan eski hâle dönebilirsin.</p>
+                <div class="mini-yedek-listesi" id="miniYedekListesi"></div>
+              </div>
+            </details>
+
+            <details class="senaryo-panel senaryo-katlanabilir">
+              <summary class="senaryo-baslik senaryo-ozet">
+                <div>
+                  <h2>Senaryo Modu ✦</h2>
+                  <p>Kullanınca aç; gerçek dersleri değiştirmeden 5 satıra kadar geçici not denemesi yap.</p>
+                </div>
+                <span class="senaryo-ok" aria-hidden="true">›</span>
+              </summary>
+
+              <div class="senaryo-icerik">
+                <div class="senaryo-satirlari" id="senaryoSatirlari"></div>
+
+                <div class="senaryo-temizle-satiri">
+                  <button type="button" class="ikincil senaryo-temizle" id="senaryoyuTemizle">Senaryoyu temizle</button>
+                </div>
+
+                <div class="senaryo-genel-sonuclar">
+                  <div><span>Senaryoya göre YANO</span><strong id="senaryoYano">-</strong></div>
+                  <div><span>Senaryoya göre GANO</span><strong id="senaryoGano">-</strong></div>
+                </div>
+
+                <div class="senaryo-kayit-alani">
+                  <div class="senaryo-kayit-formu">
+                    <input id="senaryoAdi" type="text" placeholder="Örn: Kötü vize ihtimali">
+                    <button type="button" id="senaryoyuKaydet">Senaryoyu kaydet</button>
+                  </div>
+                  <div class="senaryo-kayit-listesi" id="senaryoKayitListesi"></div>
+                  <p class="senaryo-kayit-mesaj" id="senaryoKayitMesaj">Kayıtlı senaryolar burada görünür.</p>
+                </div>
+
+                <p class="senaryo-uyari" id="senaryoUyari">Boş satırlar hesaplamaya katılmaz. S / U dersler listede görünmez.</p>
+              </div>
+            </details>
+
+            <details class="panel toplu-panel" id="topluPlanlananPanel">
+              <summary>Toplu Planlanan Ders Ekle ✦</summary>
+              <div class="toplu-icerik">
+                <div class="form-grid">
+                  <div class="tam-satir">
+                    <label for="topluDonem">Bu derslerin dönemi</label>
+                    <input id="topluDonem" type="text" list="donemOnerileri" placeholder="Örnek: 2026-2027 Güz Dönemi">
+                  </div>
+
+                  <div class="tam-satir">
+                    <label for="topluDersler">Dersleri yapıştır</label>
+                    <textarea id="topluDersler" placeholder="Her satıra bir ders yaz:
+Mali Tablolar Analizi | 5
+Sigorta Muhasebesi | 4 | BA
+Finansal Yönetim | 3 | BB | 70"></textarea>
+                  </div>
+                </div>
+
+                <p class="toplu-ornegi">
+                  Format: <strong>Ders adı | kredi</strong>. İstersen sonuna <strong>| hedef harf</strong> ve <strong>| vize</strong> de ekleyebilirsin. Örnek: <strong>Mali Tablolar Analizi | 5 | BA | 85</strong>
+                </p>
+
+                <div class="buton-satiri">
+                  <button type="button" id="topluPlanlananEkle">Planlanan dersleri ekle</button>
+                  <button type="button" class="ikincil" id="topluPlanlananTemizle">Temizle</button>
+                </div>
+
+                <p class="toplu-mesaj" id="topluPlanlananMesaj"></p>
+              </div>
+            </details>
+
+            <details class="panel hedef-gano-panel" id="hedefGanoPanel">
+              <summary>Hedef GANO Planlayıcı ✦</summary>
+              <div class="hedef-gano-icerik">
+                <p class="hedef-gano-aciklama">Hedef GANO yaz; seçtiğin planlanan dönemde en az kaç YANO yapman gerektiğini hesaplayalım.</p>
+                <div class="form-grid">
+                  <div>
+                    <label for="hedefGanoInput">Hedef GANO</label>
+                    <input id="hedefGanoInput" type="number" min="0" max="4" step="0.01" placeholder="Örnek: 3.60">
+                  </div>
+                  <div>
+                    <label for="hedefGanoDonemi">Hangi dönemle ulaşılacak?</label>
+                    <select id="hedefGanoDonemi"></select>
+                  </div>
+                </div>
+
+                <div class="hedef-gano-sonuclari">
+                  <div class="hedef-gano-karti"><span>Mevcut gerçek GANO</span><strong id="hedefGanoMevcut">-</strong><small id="hedefGanoMevcutKredi">Kredi: -</small></div>
+                  <div class="hedef-gano-karti"><span>Seçili dönem kredi</span><strong id="hedefGanoDonemKredi">-</strong><small>Planlanan kredi</small></div>
+                  <div class="hedef-gano-karti"><span>Gerekli dönem YANO</span><strong id="hedefGanoGerekliYano">-</strong><small id="hedefGanoGerekliAlt">Hedef gir</small></div>
+                  <div class="hedef-gano-karti"><span>Şu anki hedef YANO</span><strong id="hedefGanoMevcutYano">-</strong><small id="hedefGanoFark">Fark: -</small></div>
+                </div>
+
+                <p class="hedef-gano-mesaj" id="hedefGanoMesaj">Hedef GANO ve dönem seçince hesaplama burada görünecek.</p>
+              </div>
+            </details>
+
+            <details class="panel hedef-gano-panel donem-profil-panel" id="donemProfilPanel">
+              <summary>Dönem Hedef Profilleri ✦</summary>
+              <div class="hedef-gano-icerik">
+                <p class="hedef-gano-aciklama">Her dönem için genel bir hedef seç; uygulama dönem başlığında gösterecek ve sana kısa strateji verecek.</p>
+                <div class="form-grid">
+                  <div>
+                    <label for="donemProfilDonemi">Dönem</label>
+                    <select id="donemProfilDonemi"></select>
+                  </div>
+                  <div>
+                    <label for="donemProfilSecimi">Hedef profili</label>
+                    <select id="donemProfilSecimi">
+                      <option value="">Profil seçilmedi</option>
+                      <option value="rahat">Rahat geçmek</option>
+                      <option value="gano">GANO yükseltmek</option>
+                      <option value="aaba">AA / BA odaklı gitmek</option>
+                      <option value="risk">Risk azaltmak</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div class="hedef-gano-sonuclari donem-profil-sonuclari">
+                  <div class="hedef-gano-karti"><span>Seçili profil</span><strong id="donemProfilAdi">-</strong><small id="donemProfilAlt">Profil seç</small></div>
+                  <div class="hedef-gano-karti"><span>Dönem özeti</span><strong id="donemProfilYano">-</strong><small id="donemProfilKredi">Kredi: -</small></div>
+                </div>
+
+                <p class="hedef-gano-mesaj donem-profil-tavsiye" id="donemProfilMesaj">Dönem ve profil seçince strateji önerisi burada görünecek.</p>
+              </div>
+            </details>
+
+            <details class="panel hedef-gano-panel veri-sagligi-panel" id="veriSagligiPanel">
+              <summary>Veri Sağlığı / Son Kontrol ✦</summary>
+              <div class="hedef-gano-icerik">
+                <p class="hedef-gano-aciklama">Kredi, hedef, vize-final ve tekrar eden ders kontrollerini yapar. BYS toplam kredini yazarsan toplam kredi uyuşuyor mu ayrıca kontrol eder.</p>
+                <div class="bys-kredi-kontrolu">
+                  <div>
+                    <label for="bysKrediKontrolu">BYS toplam kredi</label>
+                    <input id="bysKrediKontrolu" type="number" min="0" step="0.5" placeholder="Örn: 34">
+                  </div>
+                  <button type="button" class="ikincil" id="veriSagligiYenile">Kontrol et</button>
+                </div>
+                <p class="hedef-gano-mesaj" id="veriSagligiOzet">Kontrol sonucu burada görünecek.</p>
+                <div class="veri-sagligi-listesi" id="veriSagligiListesi"></div>
+              </div>
+            </details>
+
+
+
+      </aside>
+    </section>
+
+    <section class="dersler-baslik">
+      <h2>Dersler</h2>
+      <div class="ders-sayisi" id="dersSayisi">0 ders</div>
+    </section>
+
+    <section class="ders-filtreleri" id="dersFiltreleri" aria-label="Ders filtreleri">
+      <button type="button" class="aktif" data-filtre="tum">Tüm dersler</button>
+      <button type="button" data-filtre="riskli">Riskli dersler</button>
+      <button type="button" data-filtre="eksik">Eksik hedef</button>
+      <button type="button" data-filtre="planlanan">Planlanan</button>
+      <button type="button" data-filtre="notlu">Notu girilmiş</button>
+      <button type="button" data-filtre="basarili">AA / BA</button>
+      <span class="ders-filtre-bilgi" id="dersFiltreBilgi">34 ders gösteriliyor</span>
+    </section>
+
+    <section id="dersListesi" class="ders-listesi"></section>
+
+    <details class="barem">
+      <summary>Not baremini göster</summary>
+      <div class="barem-grid" id="baremListesi"></div>
+    </details>
+  </main>
+
+<script src="js/app.js"></script>
+<script>
+  if ("serviceWorker" in navigator && location.protocol !== "file:") {
+    window.addEventListener("load", function() {
+      navigator.serviceWorker.register("./service-worker.js").catch(function() {});
+    });
+  }
+</script>
+</body>
+</html>
