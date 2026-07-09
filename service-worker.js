@@ -1,4 +1,4 @@
-const CACHE_NAME = "yildizli-ortalama-v020-sync-github";
+const CACHE_NAME = "yildizli-ortalama-v021-sync-config-fix";
 const ASSETS = [
   "./",
   "./index.html",
