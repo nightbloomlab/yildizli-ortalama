@@ -1,4 +1,4 @@
-# Yıldızlı Ortalama v0.2.8 Sync
+# Yıldızlı Ortalama v0.2.9 Sync
 
 GitHub Pages yayın klasörü.
 

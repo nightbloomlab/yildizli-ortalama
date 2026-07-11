@@ -5212,3 +5212,106 @@ summary {
     justify-content: space-between !important;
   }
 }
+
+
+/* v0.2.9 - Ayarlar paneli tek uzun çubuk: açılınca tema+doodle+O/F+aktarma aynı panel içinde */
+.sag-calisma .gorsel-ayar-alani.ayarlar-paneli,
+.gorsel-ayar-alani.ayarlar-paneli {
+  margin: 0 0 12px 0 !important;
+}
+
+.ayarlar-paneli > summary.ayar-panel-ozet {
+  width: 100% !important;
+  min-height: 48px !important;
+  justify-content: space-between !important;
+  padding: 10px 14px !important;
+  border-radius: 20px !important;
+}
+
+.ayarlar-paneli .ayar-panel-icerik {
+  display: block !important;
+  width: 100% !important;
+  margin-top: 10px !important;
+  padding: 12px !important;
+  border-radius: 20px !important;
+}
+
+.ayarlar-paneli:not([open]) .ayar-panel-icerik {
+  display: none !important;
+}
+
+.ayarlar-paneli .ayar-panel-ust {
+  display: flex !important;
+  justify-content: flex-end !important;
+  align-items: center !important;
+  gap: 8px !important;
+  flex-wrap: wrap !important;
+  width: 100% !important;
+  margin-bottom: 10px !important;
+}
+
+.ayarlar-paneli .ayar-kutusu {
+  flex: 0 0 auto !important;
+}
+
+.ayarlar-paneli .ayar-ana-buton {
+  height: 36px !important;
+}
+
+.ayarlar-paneli .ayar-ic-yedekleme,
+.ayarlar-paneli .ayar-ic-yedekleme.yedekleme-alani {
+  display: grid !important;
+  grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+  gap: 8px !important;
+  width: 100% !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+}
+
+.ayarlar-paneli .ayar-ic-yedekleme button {
+  width: 100% !important;
+  min-height: 36px !important;
+}
+
+.ayarlar-paneli .ayar-ic-yedekleme .yedekleme-durumu {
+  grid-column: 1 / -1 !important;
+  margin: 0 !important;
+}
+
+@media (max-width: 900px) {
+  .ayarlar-paneli > summary.ayar-panel-ozet {
+    min-height: 42px !important;
+    padding: 8px 10px !important;
+  }
+
+  .ayarlar-paneli .ayar-panel-ust {
+    justify-content: flex-start !important;
+  }
+
+  .ayarlar-paneli .ayar-ic-yedekleme,
+  .ayarlar-paneli .ayar-ic-yedekleme.yedekleme-alani {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+}
+
+@media (max-width: 520px) {
+  .ayar-panel-mini {
+    display: none !important;
+  }
+
+  .ayarlar-paneli .ayar-panel-ust {
+    gap: 6px !important;
+  }
+
+  .ayarlar-paneli .ayar-ana-buton {
+    height: 34px !important;
+  }
+
+  .ayarlar-paneli .ayar-ic-yedekleme,
+  .ayarlar-paneli .ayar-ic-yedekleme.yedekleme-alani {
+    grid-template-columns: 1fr !important;
+  }
+}
