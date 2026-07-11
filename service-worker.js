@@ -1,11 +1,11 @@
-const CACHE_NAME = "yildizli-ortalama-v0214-settings-opaque-theme";
+const CACHE_NAME = "yildizli-ortalama-v0215-menu-solid-theme";
 const ASSETS = [
   "./",
   "./index.html",
   "./ders-takip.html",
-  "./css/style.css",
-  "./js/app.js",
-  "./js/firebase-sync.js",
+  "./css/style.css?v=0215",
+  "./js/app.js?v=0215",
+  "./js/firebase-sync.js?v=0215",
   "./manifest-yildizli.json",
   "./assets/ders-takip-pastel-ikon.png",
   "./assets/icon-192.png",
