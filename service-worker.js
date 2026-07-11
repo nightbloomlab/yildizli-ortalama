@@ -1,4 +1,4 @@
-const CACHE_NAME = "yildizli-ortalama-v025-auto-cloud-pull";
+const CACHE_NAME = "yildizli-ortalama-v026-live-cloud-watch";
 const ASSETS = [
   "./",
   "./index.html",

@@ -1,5 +1,5 @@
 // Yıldızlı Ortalama ✦ Firebase Senkronizasyonu
-// v0.2.5 - Girişte ve uygulama açılışında buluttaki güncel veriyi otomatik getirme eklendi
+// v0.2.6 - Canlı bulut izleme + sayfa odaklanınca otomatik güncel veri getirme eklendi
 
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-app.js";
 import {
@@ -14,7 +14,8 @@ import {
   doc,
   getDoc,
   setDoc,
-  serverTimestamp
+  serverTimestamp,
+  onSnapshot
 } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-firestore.js";
 
 const firebaseConfig = {
@@ -46,6 +47,9 @@ let syncElements = {};
 let autoSyncTimer = null;
 let lastCloudInfo = null;
 let suppressAutoSync = false;
+let cloudLiveUnsubscribe = null;
+let cloudWatchInterval = null;
+let liveAutoPullInProgress = false;
 
 function isSyncableKey(key) {
   if (!key) return false;
@@ -165,7 +169,9 @@ function updateAuthUI(user) {
     localStorage.setItem(SYNC_EMAIL_KEY, currentUser.email || "");
     updateLocalSummary();
     checkCloudState(false, { autoPull: true });
+    startCloudLiveWatch();
   } else {
+    stopCloudLiveWatch();
     setMessage("Senkron için e-posta ve şifreyle giriş yap.", "info");
   }
 }
@@ -180,7 +186,7 @@ function makePayload(reason) {
   return {
     appName: "Yıldızlı Ortalama",
     syncVersion: 1,
-    appVersion: "0.2.5",
+    appVersion: "0.2.6",
     reason: reason || "manual",
     data,
     keyCount: Object.keys(data).length,
@@ -324,6 +330,89 @@ function shouldAutoPullFromCloud(cloud) {
   }
 
   return { should: false, reason: "already-current" };
+}
+
+function requestAutoPullFromCloud(cloud, source = "live") {
+  if (!currentUser || suppressAutoSync || liveAutoPullInProgress) return;
+  const decision = shouldAutoPullFromCloud(cloud);
+  if (!decision.should) return;
+
+  liveAutoPullInProgress = true;
+  setMessage(
+    decision.reason === "local-empty"
+      ? "Bu cihaz boş. Buluttaki veriler otomatik getiriliyor..."
+      : source === "focus"
+        ? "Sayfa açıldı/odaklandı. Buluttaki güncel veri otomatik getiriliyor..."
+        : "Diğer cihazdan güncel bulut verisi geldi. Otomatik getiriliyor...",
+    "info"
+  );
+
+  setTimeout(async () => {
+    try {
+      await downloadFromCloud({ auto: true });
+    } finally {
+      liveAutoPullInProgress = false;
+    }
+  }, 250);
+}
+
+function stopCloudLiveWatch() {
+  if (typeof cloudLiveUnsubscribe === "function") {
+    try {
+      cloudLiveUnsubscribe();
+    } catch (error) {
+      console.warn("Bulut izleme kapatılamadı", error);
+    }
+  }
+  cloudLiveUnsubscribe = null;
+
+  if (cloudWatchInterval) {
+    clearInterval(cloudWatchInterval);
+    cloudWatchInterval = null;
+  }
+}
+
+function startCloudLiveWatch() {
+  if (!currentUser) return;
+  stopCloudLiveWatch();
+
+  cloudLiveUnsubscribe = onSnapshot(syncDocRef(), snapshot => {
+    if (!snapshot.exists()) {
+      lastCloudInfo = null;
+      updateCloudSummary(null);
+      return;
+    }
+
+    const cloud = snapshot.data() || {};
+    lastCloudInfo = {
+      courseCount: typeof cloud.courseCount === "number" ? cloud.courseCount : countCoursesFromStorageData(cloud.data || {}),
+      keyCount: typeof cloud.keyCount === "number" ? cloud.keyCount : Object.keys(cloud.data || {}).length,
+      updatedAtMs: cloud.updatedAtMs || null,
+      updatedBy: cloud.updatedBy || "-"
+    };
+    updateCloudSummary(lastCloudInfo);
+    requestAutoPullFromCloud(cloud, "live");
+  }, error => {
+    console.error("Firebase live sync error", error);
+  });
+
+  cloudWatchInterval = setInterval(() => {
+    if (currentUser && !document.hidden) {
+      checkCloudState(false, { autoPull: true });
+    }
+  }, 30000);
+}
+
+function setupFocusRefresh() {
+  const refresh = () => {
+    if (currentUser && !document.hidden) {
+      checkCloudState(false, { autoPull: true });
+    }
+  };
+
+  window.addEventListener("focus", refresh);
+  window.addEventListener("online", refresh);
+  document.addEventListener("visibilitychange", refresh);
 }
 
 async function checkCloudState(showMessage = true, options = {}) {
@@ -483,7 +572,7 @@ function createSyncPanel() {
       <span class="senkron-durum" id="syncStatus" data-durum="kapali">Giriş yok</span>
     </summary>
     <div class="senkron-icerik">
-      <p class="senkron-aciklama">PC ve telefon arasında ders verilerini ücretsiz Firebase hesabınla eşitle. Giriş yaptığında bulutta güncel veri varsa otomatik getirilir.</p>
+      <p class="senkron-aciklama">PC ve telefon arasında ders verilerini ücretsiz Firebase hesabınla eşitle. Giriş yaptığında, sayfa yenilendiğinde veya diğer cihazdan değişiklik geldiğinde buluttaki güncel veri otomatik getirilir.</p>
 
       <div class="senkron-auth" id="syncAuthBox">
         <input id="syncEmail" type="email" autocomplete="email" placeholder="E-posta">
@@ -553,6 +642,9 @@ function createSyncPanel() {
 
   const rememberedEmail = localStorage.getItem(SYNC_EMAIL_KEY);
   if (rememberedEmail && syncElements.email) syncElements.email.value = rememberedEmail;
+  if (localStorage.getItem(SYNC_AUTO_KEY) === null) {
+    localStorage.setItem(SYNC_AUTO_KEY, "true");
+  }
   if (syncElements.auto) syncElements.auto.checked = localStorage.getItem(SYNC_AUTO_KEY) === "true";
 
   panel.addEventListener("toggle", () => {
@@ -582,6 +674,7 @@ function createSyncPanel() {
 function initSync() {
   createSyncPanel();
   patchLocalStorageForAutoSync();
+  setupFocusRefresh();
   onAuthStateChanged(auth, updateAuthUI);
 }
 
