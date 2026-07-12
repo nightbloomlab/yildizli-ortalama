@@ -1,4 +1,6 @@
-# Yıldızlı Ortalama v0.2.19 Sync
+# Yıldızlı Ortalama v0.2.20 Sync
+
+v0.2.20: Mobilde Bulut Senkronizasyon panelindeki yazılar, inputlar, butonlar ve özet kutuları bir kademe daha küçültüldü.
 
 GitHub Pages yayın klasörü.
 

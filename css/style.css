@@ -6887,3 +6887,105 @@ body .ayarlar-paneli .ayar-ic-yedekleme .yedekleme-durumu {
     font-size: 12px !important;
   }
 }
+
+
+/* v0.2.20 - Mobilde bulut senkronizasyon kartini bir kademe daha kucult */
+@media (max-width: 768px) {
+  .senkron-panel summary {
+    min-height: 34px !important;
+    padding: 8px 10px !important;
+  }
+
+  .senkron-panel .senkron-baslik,
+  .senkron-baslik {
+    font-size: 10px !important;
+    line-height: 1 !important;
+  }
+
+  .senkron-panel summary::after {
+    width: 19px !important;
+    height: 19px !important;
+    flex-basis: 19px !important;
+    font-size: 9px !important;
+  }
+
+  .senkron-panel .senkron-durum,
+  .senkron-durum,
+  .bagli-etiket,
+  .senkron-mini-ozet,
+  .senkron-aciklama,
+  .senkron-mesaj,
+  .senkron-kullanici,
+  .senkron-ozet-grid span,
+  .senkron-auto {
+    font-size: 6px !important;
+    line-height: 1.05 !important;
+  }
+
+  .senkron-panel .senkron-durum,
+  .senkron-durum,
+  .bagli-etiket {
+    min-width: 34px !important;
+    padding: 2px 5px !important;
+  }
+
+  .senkron-icerik {
+    padding: 8px !important;
+    gap: 6px !important;
+  }
+
+  .senkron-auth,
+  .senkron-kullanici,
+  .senkron-butonlar,
+  .senkron-ozet-grid {
+    gap: 6px !important;
+  }
+
+  .senkron-auth input {
+    font-size: 7px !important;
+    min-height: 25px !important;
+    height: 25px !important;
+    padding: 4px 8px !important;
+    border-radius: 10px !important;
+  }
+
+  .senkron-auth button,
+  .senkron-butonlar button,
+  .senkron-kullanici button {
+    font-size: 7px !important;
+    min-height: 23px !important;
+    height: 23px !important;
+    padding: 3px 6px !important;
+    border-radius: 10px !important;
+    line-height: 1 !important;
+  }
+
+  .senkron-ozet-grid > div {
+    min-height: 40px !important;
+    padding: 6px 8px !important;
+    border-radius: 10px !important;
+  }
+
+  .senkron-ozet-grid strong {
+    font-size: 8px !important;
+    line-height: 1.08 !important;
+  }
+
+  .senkron-auto {
+    min-height: 24px !important;
+    padding: 4px 8px !important;
+    gap: 6px !important;
+    border-radius: 999px !important;
+  }
+
+  .senkron-auto input {
+    width: 12px !important;
+    height: 12px !important;
+  }
+
+  .senkron-mesaj {
+    min-height: 24px !important;
+    padding: 6px 8px !important;
+    border-radius: 10px !important;
+  }
+}
